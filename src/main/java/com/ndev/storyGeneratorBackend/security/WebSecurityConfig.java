@@ -70,19 +70,11 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of(
-                "http://localhost",
-                "https://localhost",
-                "localhost",
                 "http://localhost:3000",
-                "https://localhost:3000",
-                "https://storygen.xyz",
                 "http://storygen.xyz",
-                "https://storygen.xyz:3000",
-                "http://storygen.xyz:3000",
-                "https://56.228.19.225",
-                "http://56.228.19.225",
-                "https://56.228.19.225:3000",
-                "http://56.228.19.225:3000"));
+                "http://www.storygen.xyz",
+                "https://storygen.xyz",
+                "https://www.storygen.xyz"));
 
 
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));

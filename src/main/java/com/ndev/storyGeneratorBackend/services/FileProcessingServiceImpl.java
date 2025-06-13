@@ -1,6 +1,7 @@
 package com.ndev.storyGeneratorBackend.services;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FileProcessingServiceImpl {
-    private String altPath = "/home/ubuntu/storygen/StoryGeneratorFlaskScriptApi/temp_ready_videos/";
+    private String altPath = "/home/ubuntu/story-generator-flask-script/temp_ready_videos/";
 
     private String basePath = "/home/ndev/Desktop/projects/StoryGeneratorFlaskScriptApi/temp_ready_videos/";
 
@@ -26,25 +27,19 @@ public class FileProcessingServiceImpl {
         return files != null ? Arrays.stream(files).map(i -> i.getName()).collect(Collectors.toList()) : null;
     }
 
-    public Resource downloadFile(String fileName) {
-        try{
-            String normalized_path = Paths.get(fileName).normalize().toString();
+    public Resource downloadFile(String fileName) throws Exception {
+        String normalized_path = Paths.get(fileName).normalize().toString();
 
-            File file = new File(altPath, normalized_path);
+        File file = new File(altPath, normalized_path);
 
-            if (file.getCanonicalPath().startsWith(altPath)) {
-                File dir = new File(altPath+fileName);
-                if(dir.exists()){
-                    Resource resource = new UrlResource(dir.toURI());
-                    return resource;
-                }
-            } else {
-                throw new Exception();
+        if (file.getCanonicalPath().startsWith(altPath)) {
+            File dir = new File(altPath+fileName);
+            if(dir.exists()){
+                Resource resource = new UrlResource(dir.toURI());
+                return resource;
             }
-
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return null;
+        } else {
+            throw new Exception();
         }
         return null;
     }

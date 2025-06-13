@@ -25,7 +25,10 @@ public class StoryGeneratorController {
 
     @PostMapping("/generate")
     public ResponseEntity<String> generateStory(HttpServletRequest rq, @RequestBody StoryRequestDTO dto) {
-        System.out.println(dto);
+        if (dto.getText().length() > 50) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         try {
             String uid = utils.generateRandomCode();
             String response = flaskApiService.generateShortVideo(dto.getText(), dto.getBgVideoId(), uid, dto.getVoice());
@@ -44,7 +47,7 @@ public class StoryGeneratorController {
     }
 
     @GetMapping("/download")
-    public ResponseEntity<?> downloadFile(HttpServletRequest rq, @RequestParam String fileName) {
+    public ResponseEntity<?> downloadFile(HttpServletRequest rq, @RequestParam String fileName) throws Exception {
         Resource file = fileProcessingService.downloadFile(fileName);
 
         if (file == null) {
